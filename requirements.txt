@@ -1,0 +1,4 @@
+Flask==2.2.2
+Pillow==9.2.0
+pythonbible==0.7.4
+tinydb==4.7.0

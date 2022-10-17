@@ -1,11 +1,14 @@
 # Importing flask module in the project is mandatory
 # An object of Flask class is our WSGI application.
+import os,time
+import random
 import tempfile
-from flask import Flask,jsonify,send_file
-import os,random
-import caption 
-import PIL
+from tinydb import TinyDB, Query
 import pythonbible as bible
+from flask import Flask, jsonify, request, send_file
+import caption
+db = TinyDB('db.json')
+logtable = db.table("logs")
 def verseidgen():
     while True:
         bookid= str(random.randint(1, 66)).zfill(2)
@@ -34,13 +37,14 @@ def status():
     return jsonify({'status': 'Up and Running!'}), 200
 @app.route('/misato')
 def misatophoto():
+    logtable.insert({'ip':str(request.remote_addr),'user_agent':str(request.user_agent),'timestamp':time.time()})
     path="misato"
     files=os.listdir(path)
     d=random.choice(files)
     return send_file("misato\\"+d, mimetype='image/gif')
-
 @app.route('/asuka')
-def asukameme():
+def asuka():
+    logtable.insert({'ip':str(request.remote_addr),'user_agent':str(request.user_agent),'timestamp':time.time()})
     path="asuka"
     files=os.listdir(path)
     d=random.choice(files)
@@ -55,5 +59,5 @@ def asukameme():
 if __name__ == '__main__':
     # run() method of Flask class runs the application
     # on the local development server.
-    app.run()
+    app.run(debug=True,port=5000)
     

@@ -1,7 +1,9 @@
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
-def makememe(image, top, bottom,file):
+
+
+def makememe(image, top, bottom, file):
     img = Image.open(image)
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("impact.ttf", 42)
@@ -58,7 +60,7 @@ def makememe(image, top, bottom,file):
                 # is line still fitting ?
                 w, h = draw.textsize(line, font)
                 if not isLast and w > img.width:
-                    #print("overshot")
+                    # print("overshot")
                     nextCut -= 1
                     while text[nextCut] != " ":
                         nextCut -= 1
@@ -70,7 +72,7 @@ def makememe(image, top, bottom,file):
         else:
             lines.append(text)
 
-        #print(lines)
+        # print(lines)
 
         lastY = -h
         if pos == "bottom":
